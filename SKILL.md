@@ -19,6 +19,7 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
     - `context.GetVarValue("变量名")`：获取变量。
     - `context.SetVarValue("变量名", 值)`：设置变量。
 - **入口函数**：必须是 `public static void Exec(Quicker.Public.IStepContext context)`。
+- **窗口管理规范**：遵循 `references/window_guidelines.md` 中的规范，确保窗口能够成功激活、前置且具备交互完整性。
 
 ### 2. 执行命令（PowerShell）
 所有命令均通过“QK 扳手”执行 (ID：`3eebe8d9-7521-46fa-b2e1-502754bce14f`)。
@@ -101,6 +102,7 @@ public static void Exec(IStepContext context)
 - **代码禁令**：C# 文件内绝对禁止出现 `namespace` 或 `class` 定义。
 - **路径要求**：命令中的路径必须是绝对路径，并进行 URL 编码。
 - **自动变量**：`text`, `rtn`, `errMessage`, `menuKey`, `silent` 会由构建器自动注入，无需在 JSON 中重复定义繁琐参数，但需在 JSON `Variables` 中定义用于 UI 或存储的变量。
+- **窗口唤起规范**：窗口运行后必须前置激活，严禁置底。详细规则参考 `references/window_guidelines.md`。
 
 ## 发布流程建议
 1. 准备 6 字以内标题。
