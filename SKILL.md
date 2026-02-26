@@ -21,7 +21,7 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 - **入口函数**：必须是 `public static void Exec(Quicker.Public.IStepContext context)`。
 
 ### 2. 执行命令（PowerShell）
-所有命令均调用元动作构建器 ID：`3eebe8d9-7521-46fa-b2e1-502754bce14f`。
+所有命令均通过“QK 扳手”执行 (ID：`3eebe8d9-7521-46fa-b2e1-502754bce14f`)。
 
 - **本地构建 (Build)**：
   ```powershell
