@@ -1,0 +1,60 @@
+﻿{
+  "ActionId": "9e5aca4c-fbdb-42e7-ac87-d30244fb14a5",
+  "SharedActionId": "00000000-0000-0000-0000-000000000000",
+  "Title": "QK技能安装助手",
+  "Description": "一键下载并安装更快（Quicker）的 AI 极速开发技能包。无需 Git，自动配置目录。",
+  "Keywords": "安装,Skill,下载,AI,开发",
+  "ChangeLog": "v1.0.0 初始化版本：支持从 GitHub 下载 Zip 并自动解压缩部署。",
+  "ShareUrl": "",
+  "Icon": "fa:Solid_Download:#00A0FF",
+  "Variables": [
+    {
+      "Type": 0,
+      "Key": "targetPath",
+      "DefaultValue": "D:\\QuickerSkillsProject",
+      "IsInput": true,
+      "Desc": "安装的目标根目录"
+    },
+    {
+      "Type": 0,
+      "Key": "zipUrl",
+      "DefaultValue": "https://github.com/luoluoluo22/quicker-skill/archive/refs/heads/master.zip",
+      "IsInput": false,
+      "Desc": "GitHub 源码包地址"
+    },
+    {
+      "Type": 0,
+      "Desc": "结果文本(自动)",
+      "IsOutput": false,
+      "Key": "text"
+    },
+    {
+      "Type": 0,
+      "Desc": "返回值(自动)",
+      "IsOutput": false,
+      "Key": "rtn"
+    },
+    {
+      "Type": 0,
+      "Desc": "错误信息(自动)",
+      "IsOutput": false,
+      "Key": "errMessage"
+    },
+    {
+      "Type": 0,
+      "Desc": "菜单参数(自动)",
+      "IsOutput": false,
+      "Key": "menuKey"
+    },
+    {
+      "Type": 2,
+      "Desc": "静默启动",
+      "DefaultValue": "true",
+      "IsInput": false,
+      "Key": "silent"
+    }
+  ],
+  "References": [
+    "System.IO.Compression.FileSystem.dll"
+  ]
+}
