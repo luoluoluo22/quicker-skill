@@ -22,19 +22,19 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 - **窗口管理规范**：遵循 `references/window_guidelines.md` 中的规范，确保窗口能够成功激活、前置且具备交互完整性。
 
 ### 2. 执行命令（PowerShell）
-所有命令均通过“QK 扳手”执行 (ID：`3eebe8d9-7521-46fa-b2e1-502754bce14f`)。
+所有命令均通过“QK 扳手”执行 (ID 见 `config.json` 中的 `wrench_action_id` 字段)。
 
 - **本地构建 (Build)**：
   ```powershell
-  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:3eebe8d9-7521-46fa-b2e1-502754bce14f?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
+  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
   ```
 - **云端发布/更新 (Publish)**：
   ```powershell
-  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:3eebe8d9-7521-46fa-b2e1-502754bce14f?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
+  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
   ```
 - **更新简介 (Update Docs)**：
   ```powershell
-  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:3eebe8d9-7521-46fa-b2e1-502754bce14f?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
+  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
   ```
 - **运行动作**：
   ```powershell

@@ -177,7 +177,7 @@ public static void Exec(IStepContext context)
 
 ## 二、执行命令
 
-**元动作构建器 ID**：`3eebe8d9-7521-46fa-b2e1-502754bce14f`（不可更改）
+**元动作构建器 ID**：见 `config.json` 中的 `wrench_action_id` 字段（不可更改）。
 
 ### 参数格式
 所有命令使用统一的参数格式：`action=xxx&filePath=yyy&shareUrl=zzz`
@@ -192,13 +192,13 @@ public static void Exec(IStepContext context)
 
 ### 构建命令（本地部署）
 ```powershell
-Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:3eebe8d9-7521-46fa-b2e1-502754bce14f?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))`""
+Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))`""
 ```
 
 ### 发布/更新动作命令 (Publish)
 **一键发布**：首次运行为新建分享，后续运行为更新分享（基于 SharedActionId）。
 ```powershell
-Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:3eebe8d9-7521-46fa-b2e1-502754bce14f?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))`""
+Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))`""
 ```
 
 ### 更新动作简介命令 (Update Docs)
@@ -207,7 +207,7 @@ Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"
 2. 自动寻找同名 MD 文件（优先级：`文件名_简介.md` > `文件名.md`）。
 
 ```powershell
-Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:3eebe8d9-7521-46fa-b2e1-502754bce14f?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))`""
+Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))`""
 ```
 *(也可以显式提供 `shareUrl` 参数，如旧版命令)*
 
