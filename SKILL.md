@@ -23,7 +23,7 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 
 ### 2. 执行命令（PowerShell）
 所有命令均通过“QK 扳手”执行 (ID 见 `config.json` 中的 `wrench_action_id` 字段)。
-
+**警告**：以下命令是与 Quicker 交互的唯一合法协议，严禁重构。
 - **本地构建 (Build)**：
   ```powershell
   Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
