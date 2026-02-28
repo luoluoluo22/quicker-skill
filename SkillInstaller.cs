@@ -9,11 +9,10 @@ using System.Windows.Forms;
 using Quicker.Public;
 using System.Threading.Tasks;
 
-public static async Task Exec(IStepContext context)
+public static void Exec(IStepContext context)
 {
     string defaultPath = context.GetVarValue("targetPath") as string ?? @"D:\QuickerSkillsProject";
     string zipUrl = context.GetVarValue("zipUrl") as string;
-    // 获取传入的扳手 ID，用于更新 config.json
     string wrenchId = context.GetVarValue("wrench_id") as string;
 
     // 1. 让用户选择编辑器类型 (UI 必须在主线程/STA 运行)
@@ -63,11 +62,7 @@ public static async Task Exec(IStepContext context)
     // 2. 询问用户安装位置
     var result = System.Windows.MessageBox.Show(
         $"准备安装 Quicker-Skill 技能包。\n\n编辑器：{selectedEditor}\n默认根目录：{defaultPath}\n\n是否使用默认目录？点击“否”选择其他目录，点击“取消”退出。",
-        "QK技能安装助手",
-        MessageBoxButton.YesNoCancel,
-        MessageBoxImage.Question,
-        MessageBoxResult.Yes,
-        System.Windows.MessageBoxOptions.DefaultDesktopOnly);
+        "QK技能安装助手", MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Yes, System.Windows.MessageBoxOptions.DefaultDesktopOnly);
 
     string finalPath = defaultPath;
     if (result == MessageBoxResult.Cancel) return;
@@ -97,9 +92,9 @@ public static async Task Exec(IStepContext context)
     try
     {
         // =========================================================
-        // 在后台执行的任务
+        // 启动后台任务
         // =========================================================
-        await Task.Run(() => {
+        var installTask = Task.Run(() => {
             Log("开始下载 Zip...");
             using (var client = new WebClient())
             {
@@ -112,7 +107,6 @@ public static async Task Exec(IStepContext context)
             ZipFile.ExtractToDirectory(tempZip, tempExtract);
             Log($"解压到临时目录: {tempExtract}");
 
-            // 4. 寻找源根
             string sourceRoot = null;
             var topDirs = Directory.GetDirectories(tempExtract);
             if (topDirs.Length > 0)
@@ -124,21 +118,15 @@ public static async Task Exec(IStepContext context)
             if (sourceRoot != null && File.Exists(Path.Combine(sourceRoot, "SKILL.md")))
             {
                 Log($"验证成功，找到 SKILL.md。");
-                
-                // 清理并创建目标目录
                 if (Directory.Exists(skillRelativePath))
                 {
                     Log("清理旧版本目录 (更新技能)...");
                     Directory.Delete(skillRelativePath, true);
                 }
-                
                 Directory.CreateDirectory(Path.GetDirectoryName(skillRelativePath));
-                
-                // 复制文件
                 Log($"将 {sourceRoot} 复制并安装至 {skillRelativePath}");
                 CopyDirectory(sourceRoot, skillRelativePath);
 
-                // --- 关键增强：根据传入的 wrench_id 更新 config.json ---
                 if (!string.IsNullOrEmpty(wrenchId))
                 {
                     string configPath = Path.Combine(skillRelativePath, "config.json");
@@ -146,7 +134,6 @@ public static async Task Exec(IStepContext context)
                     string configContent = "{\n  \"wrench_action_id\": \"" + wrenchId + "\"\n}";
                     File.WriteAllText(configPath, configContent);
                 }
-                
                 Log("核心文件复制完成。");
             }
             else
@@ -156,13 +143,24 @@ public static async Task Exec(IStepContext context)
         });
 
         // =========================================================
-        // 回到 UI 线程完成后续通知和启动
+        // [关键] 主线程等待并保持 UI 响应
+        // =========================================================
+        while (!installTask.IsCompleted)
+        {
+            System.Windows.Forms.Application.DoEvents(); // 保持 UI 不卡死
+            System.Threading.Thread.Sleep(50);
+        }
+
+        // 如果任务失败，抛出异常
+        if (installTask.IsFaulted) throw installTask.Exception.Flatten();
+
+        // =========================================================
+        // 回到主逻辑完成通知和启动
         // =========================================================
         System.Windows.MessageBox.Show(
             $"安装/更新成功！\n\n编辑器：{selectedEditor}\n项目目录：{finalPath}\n\n配置已更新，点击确定后将尝试为您打开该项目。",
             "完成", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, System.Windows.MessageBoxOptions.DefaultDesktopOnly);
             
-        // 5. 自动启动相关编辑器
         try
         {
             Log($"尝试启动编辑器: {editorCmd} 在目录: {finalPath}");
@@ -170,10 +168,7 @@ public static async Task Exec(IStepContext context)
             {
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
-                    FileName = "cmd.exe",
-                    Arguments = editorCmd.Substring(8),
-                    WorkingDirectory = finalPath,
-                    UseShellExecute = true
+                    FileName = "cmd.exe", Arguments = editorCmd.Substring(8), WorkingDirectory = finalPath, UseShellExecute = true
                 });
             }
             else
@@ -181,11 +176,7 @@ public static async Task Exec(IStepContext context)
                 var parts = editorCmd.Split(new[] { ' ' }, 2);
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
-                    FileName = parts[0],
-                    Arguments = parts.Length > 1 ? parts[1] : "",
-                    WorkingDirectory = finalPath,
-                    UseShellExecute = true,
-                    CreateNoWindow = true
+                    FileName = parts[0], Arguments = parts.Length > 1 ? parts[1] : "", WorkingDirectory = finalPath, UseShellExecute = true, CreateNoWindow = true
                 });
             }
         }
@@ -211,13 +202,11 @@ public static async Task Exec(IStepContext context)
 private static void CopyDirectory(string sourceDir, string destDir)
 {
     Directory.CreateDirectory(destDir);
-
     foreach (string file in Directory.GetFiles(sourceDir))
     {
         string destFile = Path.Combine(destDir, Path.GetFileName(file));
         File.Copy(file, destFile, true);
     }
-
     foreach (string subDir in Directory.GetDirectories(sourceDir))
     {
         string destSubDir = Path.Combine(destDir, Path.GetFileName(subDir));
@@ -225,7 +214,6 @@ private static void CopyDirectory(string sourceDir, string destDir)
     }
 }
 
-// 日志记录函数
 private static void Log(string message)
 {
     string logDir = @"F:\Desktop\kaifa\quicker-skill";

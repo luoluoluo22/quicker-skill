@@ -52,6 +52,13 @@
       "DefaultValue": "true",
       "IsInput": false,
       "Key": "silent"
+    },
+    {
+      "Type": 0,
+      "Key": "wrench_id",
+      "DefaultValue": "",
+      "IsInput": true,
+      "Desc": "QK 扳手动作 ID (从 config.json 读取并注入)"
     }
   ],
   "References": [
