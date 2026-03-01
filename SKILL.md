@@ -101,11 +101,9 @@ public static void Exec(IStepContext context)
 - **环境限制**：仅限 Windows 操作系统。
 - **代码禁令**：C# 文件内绝对禁止出现 `namespace` 或 `class` 定义。
 - **路径要求**：命令中的路径必须是绝对路径，并进行 URL 编码。
-- **自动变量**：`text`, `rtn`, `errMessage`, `menuKey`, `silent` 会由构建器自动注入，无需在 JSON 中重复定义繁琐参数，但需在 JSON `Variables` 中定义用于 UI 或存储的变量。
-- **窗口唤起规范**：窗口运行后必须前置激活，严禁置底。详细规则参考 `references/window_guidelines.md`。
-
-## 发布流程建议
-1. 准备 6 字以内标题。
-2. 痛点切入式简介：以用户第一视角描述解决了什么问题。
-3. 关键词用分号 `;` 分割。
-4. 提供详细的使用说明。
+- **自动变量**：`text`, `rtn`, `errMessage`, `menuKey`, `silent` 会由构建器自动注入。
+- **ToastNotifications & WindowsToast (反射调用)**：详细规则和字段名见 `references/internal_notifications.md`。
+- **URL 参数自动解析 (quicker_in_param)**：外部 URL 启动时的参数处理模式参见 `references/internal_notifications.md`。
+- **云端同步指南**：详细同步流程和配置参考 `references/cloud_sync_guide.md`。
+- **窗口唤起规范**：详细规则参考 `references/window_guidelines.md`。
+- **发布指南**：参考 `references/publishing_workflow.md`。
