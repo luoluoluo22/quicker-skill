@@ -26,19 +26,19 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 **警告**：以下命令是与 Quicker 交互的唯一合法协议，严禁重构。
 - **本地构建 (Build)**：
   ```powershell
-  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
+  & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```
 - **云端发布/更新 (Publish)**：
   ```powershell
-  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
+  & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```
 - **更新简介 (Update Docs)**：
   ```powershell
-  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))`""
+  & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```
 - **运行动作**：
   ```powershell
-  Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList '-c "runaction:{{生成的动作ID}}"'
+  & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{生成的动作ID}}" | Out-String
   ```
 
 ## 变量类型代码 (Type)

@@ -192,13 +192,13 @@ public static void Exec(IStepContext context)
 
 ### 构建命令（本地部署）
 ```powershell
-Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))`""
+& "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))" | Out-String
 ```
 
 ### 发布/更新动作命令 (Publish)
 **一键发布**：首次运行为新建分享，后续运行为更新分享（基于 SharedActionId）。
 ```powershell
-Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))`""
+& "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))" | Out-String
 ```
 
 ### 更新动作简介命令 (Update Docs)
@@ -207,18 +207,18 @@ Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"
 2. 自动寻找同名 MD 文件（优先级：`文件名_简介.md` > `文件名.md`）。
 
 ```powershell
-Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:{{wrench_id}}?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))`""
+& "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))" | Out-String
 ```
 *(也可以显式提供 `shareUrl` 参数，如旧版命令)*
 
 ### 读取动作简介命令 (Read)
 ```powershell
-Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList "-c `"runaction:3eebe8d9-7521-46fa-b2e1-502754bce14f?action=read&shareUrl=$([System.Net.WebUtility]::UrlEncode('{{动作分享后的url}}'))`""
+& "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:3eebe8d9-7521-46fa-b2e1-502754bce14f?action=read&shareUrl=$([System.Net.WebUtility]::UrlEncode('{{动作分享后的url}}'))" | Out-String
 ```
 
 ### 运行已构建动作
 ```powershell
-Start-Process "C:\Program Files\Quicker\QuickerStarter.exe" -ArgumentList '-c "runaction:{{生成的动作ID}}"'
+& "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{生成的动作ID}}" | Out-String
 ```
 
 ---
