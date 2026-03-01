@@ -28,6 +28,10 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
   ```powershell
   & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```
+  **构建验证规范**：
+  1. **状态监控**：必须使用 `command_status` 确保命令执行完成。
+  2. **结果扫描**：必须主动解析输出文本。如果包含 `error` 或 `失败`，则判定为构建失败，立即停止后续操作并排查。
+  3. **自动运行特性**：若编译成功，Quicker 会**自动运行**该动作一次。**严禁**在构建命令后立即紧跟“运行动作”命令，以免造成重复执行。
 - **云端发布/更新 (Publish)**：
   ```powershell
   & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
