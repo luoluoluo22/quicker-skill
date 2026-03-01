@@ -118,8 +118,10 @@ using Quicker.Public;
 
 public static void Exec(IStepContext context)
 {
-    MessageBox.Show("你好！这是来自 Quicker 的弹窗！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-    context.SetVarValue("rtn", "Success");
+    string rtn = context.GetVarValue("rtn") as string ?? "";
+    MessageBox.Show("你好！这是来自 Quicker 的弹窗！", "提示", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+    rtn = "Success";
+    context.SetVarValue("rtn", rtn);
 }
 ```
 
@@ -131,9 +133,11 @@ using Quicker.Public;
 
 public static void Exec(IStepContext context)
 {
+    string rtn = context.GetVarValue("rtn") as string ?? "";
     var list = new[] { 1, 2, 3, 4, 5 };
     var result = list.Where(x => x > 2).Sum();
-    context.SetVarValue("rtn", $"计算结果: {result}");
+    rtn = $"计算结果: {result}";
+    context.SetVarValue("rtn", rtn);
 }
 ```
 

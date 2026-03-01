@@ -90,10 +90,10 @@ public static void Exec(IStepContext context)
     string input = context.GetVarValue("input_var") as string;
     
     // 逻辑处理
-    MessageBox.Show("收到的输入是: " + input);
-    
-    // 设置回传变量 (rtn 是常用回传变量名)
-    context.SetVarValue("rtn", "处理完成");
+    string rtn = context.GetVarValue("rtn") as string ?? "";
+    MessageBox.Show("你好！这是来自 Quicker 的弹窗！", "提示", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+    rtn = "Success";
+    context.SetVarValue("rtn", rtn);
 }
 ```
 
