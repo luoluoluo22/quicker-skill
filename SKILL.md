@@ -33,9 +33,10 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 **警告**：以下命令是与 Quicker 交互的唯一合法协议，严禁重构。
 ### Quicker 构建指令集合
 - **本地一键构建 (Build & Verify)**：
-  直接调用 QuickerStarter 触发构建。该命令是同步的，会直接在终端返回编译结果（成功或报错），一定查看结果后再执行后续步骤
+  直接调用封装脚本触发构建。该命令是同步的，会直接在终端返回编译结果（成功或报错），一定查看结果后再执行后续步骤
+  执行 scripts/build.ps1 -JsonPath <你的文件> 即可。
   ```powershell
-  & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
+  & ".\scripts\build.ps1" -JsonPath "{{JSON绝对路径}}"
   ```
 - **云端发布/更新 (Publish)暂不可用**：
   ```powershell

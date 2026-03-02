@@ -195,8 +195,10 @@ public static void Exec(IStepContext context)
 
 
 ### 构建命令（本地部署）
+直接调用封装的 `build.ps1` 脚本，避免路径拼接繁杂并简化命令结构。
+执行 `scripts/build.ps1 -JsonPath <你的文件>` 即可。
 ```powershell
-& "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{你的JSON文件路径}}'))" | Out-String
+& ".\scripts\build.ps1" -JsonPath "{{你的JSON文件路径}}"
 ```
 
 ### 发布/更新动作命令 (Publish)
