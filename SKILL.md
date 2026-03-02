@@ -33,11 +33,11 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 **警告**：以下命令是与 Quicker 交互的唯一合法协议，严禁重构。
 ### Quicker 构建指令集合
 - **本地一键构建 (Build & Verify)**：
-  取代繁琐的手动调用，优先使用自带的一键构建脚本。它会自动启动异步编译并拦截执行结果，只需查看它的终端输出即可判定成功或报错。（注意：编译成功后仍会触发 Quicker 自动运行）。
+  直接调用 QuickerStarter 触发构建。该命令是同步的，会直接在终端返回编译结果（成功或报错）。
   ```powershell
-  & "f:\Desktop\kaifa\quicker-skill\.agent\skills\quicker-skill\scripts\build_action.ps1" -ActionId "{{wrench_id}}" -JsonPath "{{JSON绝对路径}}"
+  & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```
-- **云端发布/更新 (Publish)**：
+- **云端发布/更新 (Publish)暂不可用**：
   ```powershell
   & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```
