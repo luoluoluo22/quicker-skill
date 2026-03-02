@@ -56,4 +56,9 @@ if ($LASTEXITCODE -ne 0 -or $rawOutput -match "❌|错误|编译失败|error\s+[
     exit 1
 } else {
     Write-Host "构建完成" -ForegroundColor Green
+    $resultText = $rawOutput.Trim()
+    if (-not [string]::IsNullOrWhiteSpace($resultText)) {
+        Write-Host "动作执行结果:" -ForegroundColor Cyan
+        Write-Host $resultText
+    }
 }
