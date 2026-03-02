@@ -26,6 +26,7 @@
 | `Icon`           | 图标，格式：`fa:图标名:#颜色`（例：`fa:Solid_Robot:#0080FF`）                                                                     |
 | `Variables`      | 定义动作变量。关键字段：`Type`(类型代码), `Key`(变量名), `DefaultValue`(默认值), `IsInput`(作为参数输入), `SaveState`(记忆上次值) |
 | `Menus`          | (可选) 定义右键菜单。格式: `{ "Key": "标题" }`。构建器会自动生成 `menuKey` 变量供 C# 读取。                                       |
+| `References`     | (可选) 额外的 DLL 引用列表。格式: `["xxx.dll", "yyy.dll"]`。构建器会自动生成 `//css_reference` 指令。                             |
 
 ### 文件 B：C# 逻辑文件 (.cs)
 （见下文代码规则）

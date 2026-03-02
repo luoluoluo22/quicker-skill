@@ -93,7 +93,8 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
   ],
   "Menus": {
     "config": "[fa:Regular_Sun]设置"
-  }
+  },
+  "References": [ "Microsoft.Web.WebView2.Wpf.dll"]
 }
 ```
 
