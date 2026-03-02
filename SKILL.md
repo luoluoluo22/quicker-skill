@@ -3,6 +3,13 @@ name: quicker-skill
 description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）。支持生成 JSON 配置、C# 逻辑代码和 Markdown 简介，并通过 PowerShell 调用 QuickerStarter.exe 进行本地构建或云端发布。
 ---
 
+### 📁 技能内置资产 (Assets)
+在 `quicker-skill/` 下提供了丰富的脚手架工具：
+- `scripts/build_action.ps1`：自动调用编译器并解析日志的**一键构建脚本**。
+- `scripts/reflection_tool.cs`：用于探测内部对象的泛型反射实验室。
+- `templates/basic_action.json`：带输入/输出的标准快捷动作包裹容器。
+- `templates/ui_action.cs`：集成了 WPF UI 线程调度、异常捕获并输出到 `reflection_log.txt` 的 C# 代码骨架。
+
 # Quicker 动作开发技能 (quicker-skill)
 
 ## 目标
@@ -24,30 +31,30 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 ### 2. 执行命令（PowerShell）
 所有命令均通过“QK 扳手”执行 (ID 见 `config.json` 中的 `wrench_action_id` 字段)。
 **警告**：以下命令是与 Quicker 交互的唯一合法协议，严禁重构。
-- **本地构建 (Build)**：
+### Quicker 构建指令集合
+- **本地一键构建 (Build & Verify)**：
+  取代繁琐的手动调用，优先使用自带的一键构建脚本。它会自动启动异步编译并拦截执行结果，只需查看它的终端输出即可判定成功或报错。（注意：编译成功后仍会触发 Quicker 自动运行）。
   ```powershell
-  & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=build&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
+  & "f:\Desktop\kaifa\quicker-skill\.agent\skills\quicker-skill\scripts\build_action.ps1" -ActionId "{{wrench_id}}" -JsonPath "{{JSON绝对路径}}"
   ```
-  **构建验证规范**：
-  1. **状态监控**：必须使用 `command_status` 确保命令执行完成。
-  2. **结果扫描**：必须主动解析输出文本。如果包含 `error` 或 `失败`，则判定为构建失败，立即停止后续操作并排查。
-  3. **自动运行特性**：若编译成功，Quicker 会**自动运行**该动作一次。**严禁**在构建命令后立即紧跟“运行动作”命令，以免造成重复执行。
 - **云端发布/更新 (Publish)**：
   ```powershell
   & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```
 
-### 🛠️ 反射工具实验室 (Reflection Tool)
-技能自带一个通用探测工具 `scripts/reflection_tool.cs`。当需要探索未知模块时，AI 应优先运行此工具并传入参数：
-- **搜索类型**: `qreflect?action=search&keyword=关键字`
-- **详细 Dump**: `qreflect?action=dump&type=类全名`
-- **全局搜索成员**: `qreflect?action=search_members&keyword=关键字`
-- **列出所有程序集**: `qreflect?action=list_assemblies`
-
-*注：探测结果默认输出至 f:\Desktop\kaifa\quicker-skill\reflection_log.txt*
+### 🏗️ 动作构建核心原则 (Minimalism)
+为确保 `build` 命令成功并自动覆盖逻辑，必须严格遵守以下原则：
+1. **JSON 极简设计**：`templates/basic_action.json` 中严禁包含 `Steps` 数组。它仅应定义元数据（ID、变量、图标等）。
+2. **同名配对原则**：构建时，JSON 的文件名必须与 C# 核心逻辑脚本文件名完全一致且位于同一目录下。例如：`MyTask.json` 对应 `MyTask.cs`。
+   - Quicker 构建器检测到此模式时，会自动将 `.cs` 内容填充到动作主步骤中，无需在 JSON 中声明 Steps。
+3. **独立 ID**：新动作的 `ActionId` 必须与 `config.json` 中的“扳手 ID”区分开（以免修改到扳手本身）。
 
 ---
-- **更新简介 (Update Docs)**：
+
+## 🛠️ 反射工具实验室 (Reflection Tooling)
+可通过运行 `scripts/reflection_tool.cs` 并传入参数快速获取内部信息：
+- **搜索**: `qreflect?action=search&keyword=Toast`
+- **详细 Dump**: `qreflect?action=dump&type=Quicker.Utilities.AppHelper`- **更新简介 (Update Docs)**：
   ```powershell
   & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```

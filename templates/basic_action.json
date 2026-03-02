@@ -1,12 +1,12 @@
 {
-    "ActionId": "3eebe8d9-7521-46fa-b2e1-502754bce14f",
+    "ActionId": "REPLACE_WITH_UUID",
     "SharedActionId": "00000000-0000-0000-0000-000000000000",
-    "Title": "Quicker 反射实验室",
-    "Description": "通用反射工具，支持搜索、Dump 成员、查找程序集等。通过 URL 参数 (action, keyword, type, log) 调用。",
-    "Keywords": "qreflect,反射",
-    "ChangeLog": "v1.0.0 初始化反编译和反射侦查外壳",
+    "Title": "空白动作模板",
+    "Description": "基于 C# 脚本的高级动作模板",
+    "Keywords": "template",
+    "ChangeLog": "v1.0.0 初始化",
     "ShareUrl": "",
-    "Icon": "fa:Solid_Bugs:#FF4000",
+    "Icon": "fa:Solid_Wrench:#FF4000",
     "Variables": [
         {
             "Key": "quicker_in_param",
