@@ -36,6 +36,17 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
   ```powershell
   & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=publish&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```
+
+### 🛠️ 反射工具实验室 (Reflection Tool)
+技能自带一个通用探测工具 `scripts/reflection_tool.cs`。当需要探索未知模块时，AI 应优先运行此工具并传入参数：
+- **搜索类型**: `qreflect?action=search&keyword=关键字`
+- **详细 Dump**: `qreflect?action=dump&type=类全名`
+- **全局搜索成员**: `qreflect?action=search_members&keyword=关键字`
+- **列出所有程序集**: `qreflect?action=list_assemblies`
+
+*注：探测结果默认输出至 f:\Desktop\kaifa\quicker-skill\reflection_log.txt*
+
+---
 - **更新简介 (Update Docs)**：
   ```powershell
   & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
@@ -106,8 +117,9 @@ public static void Exec(IStepContext context)
 - **代码禁令**：C# 文件内绝对禁止出现 `namespace` 或 `class` 定义。
 - **路径要求**：命令中的路径必须是绝对路径，并进行 URL 编码。
 - **自动变量**：`text`, `rtn`, `errMessage`, `menuKey`, `silent` 会由构建器自动注入。
-- **ToastNotifications & WindowsToast (反射调用)**：详细规则和字段名见 `references/internal_notifications.md`。
-- **URL 参数自动解析 (quicker_in_param)**：外部 URL 启动时的参数处理模式参见 `references/internal_notifications.md`。
+- **内部核心模块 (反射调用) & 获取选中文本**：包含 Toast, WindowsToast, SelectOperationWindow 及 GetSelectedText 的深度调用规则，详见 `references/internal_modules.md`。
+- **内部 API 全量清单 (CSV)**：汇总所有探测到的内部窗体、服务及方法列表，见 `references/quicker_internal_apis.csv`。
+- **URL 参数自动解析 (quicker_in_param)**：外部 URL 启动时的参数处理模式参见 `references/internal_modules.md`。
 - **反射与内部模块探索**：混淆绕过、签名匹配等深度探索经验总结见 `references/reflection_discovery_experience.md`。
 - **云端同步指南**：详细同步流程和配置参考 `references/cloud_sync_guide.md`。
 - **窗口唤起规范**：详细规则参考 `references/window_guidelines.md`。

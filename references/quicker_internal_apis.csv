@@ -1,0 +1,17 @@
+Category,Title,Namespace/Type,Method/Property,Call Type,Description
+UI,悬浮 Toast 提示,ToastNotifications.Notifier,ShowSuccess/ShowError/etc,实例 + 扩展方法,在屏幕指定位置弹出美观的悬浮提示框
+UI,Windows 系统通知,Quicker.Utilities.AppHelper,ShowWindowsToastMessage,静态方法,触发 Windows 10+ 操作中心的通知
+UI,用户选择弹窗,Quicker.View.SelectOperationWindow,ctor/ShowDialog,构造实例化,弹出标准的单选/多选列表对话框
+Data,选项数据模型,Quicker.View.SimpleOperationItem,Name/Key/Icon,数据项实例化,为 SelectOperationWindow 提供行数据支持
+System,获取选中文本,Quicker.Utilities.AppHelper,GetSelectedText,静态方法,高可靠性抓取当前光标选中的文字
+System,窗口定位枚举,Quicker.Domain.ShowWindowLocation,WithMouse1/CenterScreen/etc,枚举常量,控制弹窗出现的起始位置
+UI,颜色选择器,Quicker.View.ColorSelectorWindow,ShowDialog,构造实例化,弹出标准的颜色选取调色盘
+UI,图标选择器 (Fa),Quicker.View.FaIconSelectorWindow,ShowDialog,构造实例化,弹出 FontAwesome 图标搜索和选择窗口
+UI,程序/文件选择器,Quicker.View.AppSelectorWindow,ShowDialog,构造实例化,选择已安装的 App 或本地文件
+UI,屏幕坐标拾取,Quicker.View.ScreenPointSelectWindow,ShowDialog,构造实例化,让用户在全屏范围内点击拾取坐标点
+UI,托盘气泡提示,Quicker.Utilities.UI.NotifyIconWrapper,ShowMessage,实例方法,在系统托盘图标上方弹出传统气泡消息
+UI,快捷键输入器,Quicker.View.KeyInput.KeySelectorWindow,ShowDialog,构造实例化,捕获用户录入的快捷键组合
+UI,进程/程序选取器,Quicker.Modules.TextTools.Tools.ProfileExeSelectWindow,ShowDialog,构造实例化,用于选择当前运行的进程或程序路径
+UI,蓝牙设备选择器,Quicker.Modules.TextTools.Tools.BluetoothDeviceSelectorWindow,ShowDialog,构造实例化,扫描并选择附近的蓝牙设备
+Logic,App 全局服务器,Quicker.Domain.AppServer,ShowSearchWindow/ShowConfigWindow,实例方法,控制 Quicker 主搜索框和设置页面的显示
+Logic,动作编辑器管理,Quicker.Domain.Services.ActionEditMgr,ShowEditor,实例方法,通过反射直接唤起特定动作的编辑窗口

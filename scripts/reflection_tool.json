@@ -1,0 +1,23 @@
+{
+    "ActionId": "3eebe8d9-7521-46fa-b2e1-502754bce14f",
+    "Title": "Quicker 反射实验室",
+    "Description": "通用反射工具，支持搜索、Dump 成员、查找程序集等。通过 URL 参数 (action, keyword, type, log) 调用。",
+    "Category": "System",
+    "Keyword": "qreflect",
+    "Variables": {
+        "quicker_in_param": {
+            "Type": "Text",
+            "Value": "",
+            "IsInput": true
+        }
+    },
+    "Steps": [
+        {
+            "Type": "quicker:cs_script",
+            "Params": {
+                "script": "f:\\Desktop\\kaifa\\quicker-skill\\.agent\\skills\\quicker-skill\\scripts\\reflection_tool.cs",
+                "references": "System.dll;WPF\\WindowsBase.dll;WPF\\PresentationCore.dll;WPF\\PresentationFramework.dll;System.Core.dll;System.Data.dll;System.Management.dll;System.Net.Http.dll"
+            }
+        }
+    ]
+}
