@@ -11,7 +11,7 @@
 不要仅使用 `win.Show()` 或 `win.ShowDialog()`，应当使用以下组合拳确保窗口成功激活：
 
 ```csharp
-public static void Exec(IStepContext context)
+public static string Exec(IStepContext context)
 {
     Application.Current.Dispatcher.Invoke(() =>
     {
@@ -30,6 +30,7 @@ public static void Exec(IStepContext context)
         // 4. 显式获取焦点
         win.Focus();
     });
+    return "OK";
 }
 ```
 
