@@ -24,6 +24,13 @@ Write-Host "-> Target Path: $fullPath"
 Write-Host "-> Triggering Quicker Compilation..."
 Write-Host "Command: $exePath -c120 `"$commandUrl`"" -ForegroundColor DarkGray
 
-# 直接执行，不使用管道，让输出直接流向控制台
-& $exePath -c120 "$commandUrl"
-Write-Host "`n-> Build command sequence completed." -ForegroundColor Green
+# 执行并捕获输出
+# 使用 | Out-String 强制同步执行并获取结果，而不是后台静默运行
+$result = & $exePath -c120 "$commandUrl" | Out-String
+
+if (![string]::IsNullOrWhiteSpace($result)) {
+    Write-Host "========== BUILD RESULT ==========" -ForegroundColor Cyan
+    Write-Host $result.Trim()
+} else {
+    Write-Host "-> Build command sent, but no output was returned." -ForegroundColor Yellow
+}
