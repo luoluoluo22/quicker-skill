@@ -47,7 +47,8 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 1. **JSON 极简设计**：`templates/basic_action.json` 中严禁包含 `Steps` 数组。它仅应定义元数据（ID、变量、图标等）。
 2. **同名配对原则**：构建时，JSON 的文件名必须与 C# 核心逻辑脚本文件名完全一致且位于同一目录下。例如：`MyTask.json` 对应 `MyTask.cs`。
    - Quicker 构建器检测到此模式时，会自动将 `.cs` 内容填充到动作主步骤中，无需在 JSON 中声明 Steps。
-3. **独立 ID**：新动作的 `ActionId` 必须与 `config.json` 中的“扳手 ID”区分开（以免修改到扳手本身）。
+3. **独立 ID**：新动作的 `ActionId`必须与 `config.json` 中的“扳手 ID”区分开（以免修改到扳手本身）。
+4. **日志同名原则 (Local logging)**：为了让 `build_action.ps1` 能够准确捕获运行时的状态，C# 脚本中的 `logPath` 必须默认设置为与 JSON 文件**同目录且同名（.log后缀）**。
 
 ---
 

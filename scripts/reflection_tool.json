@@ -1,5 +1,5 @@
-{
-    "ActionId": "3eebe8d9-7521-46fa-b2e1-502754bce14f",
+﻿{
+    "ActionId": "",
     "SharedActionId": "00000000-0000-0000-0000-000000000000",
     "Title": "Quicker 反射实验室",
     "Description": "通用反射工具，支持搜索、Dump 成员、查找程序集等。通过 URL 参数 (action, keyword, type, log) 调用。",
@@ -28,6 +28,25 @@
             "DefaultValue": "",
             "IsOutput": false,
             "Desc": "错误信息(自动)"
+        },
+        {
+            "Type": 0,
+            "Desc": "结果文本(自动)",
+            "IsOutput": false,
+            "Key": "text"
+        },
+        {
+            "Type": 0,
+            "Desc": "菜单参数(自动)",
+            "IsOutput": false,
+            "Key": "menuKey"
+        },
+        {
+            "Type": 2,
+            "Desc": "静默启动",
+            "DefaultValue": "true",
+            "IsInput": false,
+            "Key": "silent"
         }
     ]
 }

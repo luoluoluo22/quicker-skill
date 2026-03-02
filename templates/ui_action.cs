@@ -11,7 +11,8 @@ using System.Threading;
 // C# 脚本入口方法，必须接受 IStepContext 参数
 public static string Exec(IStepContext context)
 {
-    string logPath = @"F:\Desktop\kaifa\quicker-skill\reflection_log.txt";
+    // 关键原则：日志路径应默认设置在当前脚本/JSON 旁边，以便 build_action.ps1 能够捕捉到执行结果
+    string logPath = @"F:\Desktop\kaifa\quicker-skill\YourActionName.log"; 
     StringBuilder sb = new StringBuilder();
     sb.AppendLine($"--- Run at {DateTime.Now:yyyy-MM-dd HH:mm:ss} ---");
     

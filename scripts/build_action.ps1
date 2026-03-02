@@ -9,8 +9,12 @@ param(
     [int]$WaitSeconds = 6,
 
     [Parameter(Mandatory=$false)]
-    [string]$LogPath = "F:\Desktop\kaifa\quicker-skill\reflection_log.txt"
+    [string]$LogPath = ""
 )
+
+if ([string]::IsNullOrWhiteSpace($LogPath)) {
+    $LogPath = [System.IO.Path]::ChangeExtension($JsonPath, ".log")
+}
 
 # 强制使用 UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8

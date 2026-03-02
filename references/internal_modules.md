@@ -6,29 +6,43 @@
 ### 1.1 悬浮 Toast (Success/Info/Warn/Error)
 *   **核心库**: `ToastNotifications.dll`
 *   **实例定位**: `Application.Current.MainWindow` 的混淆字段（当前版本为 `l6sHHaS3IZJ`）。
-*   **调用方式**: 通过 `ToastNotifications.Messages` 下的扩展静态类（如 `SuccessExtensions`）的 `ShowXxx` 方法。
-*   **示例代码**:
+*   **完整示例**:
     ```csharp
-    Application.Current.Dispatcher.Invoke(() => {
-        var mw = Application.Current.MainWindow;
-        var notifier = mw.GetType().GetField("l6sHHaS3IZJ", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(mw);
-        var extType = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
-            .First(t => t.FullName == "ToastNotifications.Messages.SuccessExtensions");
-        // 调用 ShowSuccess(notifier, message)
-        extType.GetMethod("ShowSuccess", new[] { notifier.GetType(), typeof(string) })
-            .Invoke(null, new object[] { notifier, "操作成功！" });
-    });
+    public static string Exec(IStepContext context) {
+        Application.Current.Dispatcher.Invoke(() => {
+            var mw = Application.Current.MainWindow;
+            var notifierField = mw.GetType().GetField("l6sHHaS3IZJ", BindingFlags.Instance | BindingFlags.NonPublic);
+            var notifier = notifierField.GetValue(mw);
+            
+            var extType = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
+                .First(t => t.FullName == "ToastNotifications.Messages.SuccessExtensions");
+                
+            // 调用 ShowSuccess(notifier, message)
+            extType.GetMethod("ShowSuccess", new[] { notifier.GetType(), typeof(string) })
+                .Invoke(null, new object[] { notifier, "操作成功！" });
+        });
+        return "OK";
+    }
     ```
 
 ### 1.2 Windows 10+ 系统通知 (WindowsToast)
 *   **实现位置**: `Quicker.Utilities.AppHelper.ShowWindowsToastMessage` (静态方法)。
-*   **调用签名**: `ShowWindowsToastMessage(string message, string title, ...)`
-*   **示例代码**:
+*   ** verified 签名**: `ShowWindowsToastMessage(string message, string title, Action onClick, int? expirationMs, string icon)`
+*   **完整示例**:
     ```csharp
-    var appHelper = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
-        .First(t => t.FullName == "Quicker.Utilities.AppHelper");
-    appHelper.GetMethod("ShowWindowsToastMessage", new[] { typeof(string), typeof(string) })
-        .Invoke(null, new object[] { "消息内容", "标题" });
+    public static string Exec(IStepContext context) {
+        Application.Current.Dispatcher.Invoke(() => {
+            var appHelper = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
+                .First(t => t.FullName == "Quicker.Utilities.AppHelper");
+            
+            // 匹配 5 个参数的签名
+            var method = appHelper.GetMethod("ShowWindowsToastMessage", 
+                new[] { typeof(string), typeof(string), typeof(Action), typeof(int?), typeof(string) });
+            
+            method.Invoke(null, new object[] { "消息内容", "标题", null, 5000, null });
+        });
+        return "OK";
+    }
     ```
 
 ### 1.3 用户选择弹窗 (SelectOperationWindow)
@@ -61,13 +75,19 @@
 
 ### 1.4 获取选中文本 (GetSelectedText)
 *   **实现位置**: `Quicker.Utilities.AppHelper.GetSelectedText` (静态方法)。
-*   **方法签名**: `string GetSelectedText(long repeatCount, TextDataFormat format, int waitMs, bool tryUiAuto)`
-*   **示例代码**:
+*   **完整示例**:
     ```csharp
-    var appHelper = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
-        .First(t => t.FullName == "Quicker.Utilities.AppHelper");
-    var method = appHelper.GetMethod("GetSelectedText", new[] { typeof(long), typeof(TextDataFormat), typeof(int), typeof(bool) });
-    string text = (string)method.Invoke(null, new object[] { 0L, TextDataFormat.UnicodeText, 250, false });
+    public static string Exec(IStepContext context) {
+        string text = "";
+        Application.Current.Dispatcher.Invoke(() => {
+            var appHelper = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes())
+                .First(t => t.FullName == "Quicker.Utilities.AppHelper");
+            var method = appHelper.GetMethod("GetSelectedText", 
+                new[] { typeof(long), typeof(TextDataFormat), typeof(int), typeof(bool) });
+            text = (string)method.Invoke(null, new object[] { 0L, TextDataFormat.UnicodeText, 250, false });
+        });
+        return text;
+    }
     ```
 
 ---

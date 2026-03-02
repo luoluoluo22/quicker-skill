@@ -17,7 +17,7 @@ public static string Exec(IStepContext context)
     string action = args.ContainsKey("action") ? args["action"] : "search";
     string keyword = args.ContainsKey("keyword") ? args["keyword"] : "";
     string typeName = args.ContainsKey("type") ? args["type"] : "";
-    string logPath = args.ContainsKey("log") ? args["log"] : @"F:\Desktop\kaifa\quicker-skill\reflection_log.txt";
+    string logPath = args.ContainsKey("log") ? args["log"] : "reflection_result.log";
 
     StringBuilder sb = new StringBuilder();
     sb.AppendLine($"=== Quicker Reflection Tooling ({DateTime.Now:yyyy-MM-dd HH:mm:ss}) ===");
