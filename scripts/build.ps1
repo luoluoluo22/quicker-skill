@@ -1,9 +1,15 @@
-param(
+﻿param(
     [Parameter(Mandatory=$true)]
     [string]$JsonPath,
-    
+
     [string]$WrenchId = ""
 )
+
+# 统一控制台编码为 UTF-8，避免中文输出乱码
+$Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+[Console]::InputEncoding = $Utf8NoBom
+[Console]::OutputEncoding = $Utf8NoBom
+$OutputEncoding = $Utf8NoBom
 
 if ([string]::IsNullOrWhiteSpace($WrenchId)) {
     # 尝试读取同级或上级目录的 config.json
@@ -36,14 +42,17 @@ if ($LASTEXITCODE -ne 0 -or $rawOutput -match "❌|错误|编译失败|error\s+[
     Write-Host ""
     Write-Host "构建失败" -ForegroundColor Red
     Write-Host "--------------------------------" -ForegroundColor DarkRed
+
     $errorLines = $rawOutput -split "`r?`n" | Where-Object {
         $_ -match "❌|错误|编译失败|error\s+[A-Z]+\d+"
     }
+
     if ($errorLines.Count -gt 0) {
         $errorLines | ForEach-Object { Write-Host $_ -ForegroundColor Red }
     } else {
         Write-Host ($rawOutput.Trim()) -ForegroundColor Red
     }
+
     exit 1
 } else {
     Write-Host "构建完成" -ForegroundColor Green
