@@ -7,7 +7,7 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 在 `quicker-skill/` 下提供了丰富的脚手架工具：
 - `scripts/build_action.ps1`：自动调用编译器并解析日志的**一键构建脚本**。
 - `templates/basic_action.json`：带输入/输出的标准快捷动作包裹容器。
-- `templates/ui_action.cs`：集成了 WPF UI 线程调度、异常捕获并输出到 `.log` 的实用 C# 代码骨架。
+- `templates/ui_action.cs`：集成了 WPF UI 线程调度、异常捕获的实用 C# 代码骨架。
 
 # Quicker 动作开发技能 (quicker-skill)
 
@@ -21,11 +21,10 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
     - **JSON 配置 (.json)**：定义 `ActionId` (留空自动生成), `Title`, `Variables`, `Icon`, `Menus`, `References` 等。
     - **C# 逻辑 (.cs)**：纯逻辑代码，**严禁** 包含 `namespace` 或 `class`。
     - **简介文档 (.md)**：作为线上简介，建议命名为 `基准名_简介.md`。
-- **变量操作 (IStepContext API)**：严格仅允许使用以下方法：
+- **变量操作 (IStepContext API)**：严格仅允许使用以下两个方法：
     - `context.GetVarValue("变量名")`：获取变量。
     - `context.SetVarValue("变量名", object值)`：设置变量。
-    - `context.LogMsg("内容")`：输出调试日志。
-    - **严禁使用**：`LogException` (不存在), `ShowMessage` (不存在)。
+    - **严禁使用**：`LogMsg`, `LogException`, `ShowMessage` 等不存在的方法。
 - **入口函数**：必须是 `public static string Exec(Quicker.Public.IStepContext context)`。必须返回字符串（如 `"OK"` 或结果）。
 - **窗口管理规范**：遵循 `references/window_guidelines.md` 中的规范，确保窗口能够成功激活、前置且具备交互完整性。
 
@@ -120,7 +119,7 @@ public static string Exec(IStepContext context)
 
 ## 🚫 常见错误拨乱反正 (Anti-Hallucination)
 在编写 C# 脚本时，AI 经常犯以下错误，必须规避：
-1. **虚构 IStepContext 方法**：`IStepContext` **没有** `LogException` 或 `ShowMessage`。记录异常请使用 `try-catch` 并返回错误字符串或弹出 `MessageBox`。
+1. **虚构 IStepContext 方法**：`IStepContext` **没有** `LogMsg`, `LogException` 或 `ShowMessage`。记录信息请使用 `MessageBox` 或返回错误字符串。
 2. **遗漏返回类型**：`Exec` 的签名**必须**是 `string` 而不是 `void`。
 3. **遗漏绝对路径**：构建脚本调用时，`-JsonPath` 必须是**绝对路径**。
 4. **遗漏 UI 线程保护**：操作任何 WPF 对象（如 `MainWindow`, `Toast`）必须包裹在 `Application.Current.Dispatcher.Invoke(() => { ... })` 中。
