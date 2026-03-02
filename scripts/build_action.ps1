@@ -24,6 +24,6 @@ Write-Host "-> Target Path: $fullPath"
 Write-Host "-> Triggering Quicker Compilation..."
 Write-Host "Command: $exePath -c120 `"$commandUrl`"" -ForegroundColor DarkGray
 
-# 使用 call 运算符直接启动
-& $exePath -c120 "$commandUrl" | Out-Null
-Write-Host "-> Build command sent. Quicker will compile and run the action." -ForegroundColor Green
+# 直接执行，不使用管道，让输出直接流向控制台
+& $exePath -c120 "$commandUrl"
+Write-Host "`n-> Build command sequence completed." -ForegroundColor Green
