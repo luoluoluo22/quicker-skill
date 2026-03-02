@@ -108,6 +108,7 @@ public static void Exec(IStepContext context)
 - **自动变量**：`text`, `rtn`, `errMessage`, `menuKey`, `silent` 会由构建器自动注入。
 - **ToastNotifications & WindowsToast (反射调用)**：详细规则和字段名见 `references/internal_notifications.md`。
 - **URL 参数自动解析 (quicker_in_param)**：外部 URL 启动时的参数处理模式参见 `references/internal_notifications.md`。
+- **反射与内部模块探索**：混淆绕过、签名匹配等深度探索经验总结见 `references/reflection_discovery_experience.md`。
 - **云端同步指南**：详细同步流程和配置参考 `references/cloud_sync_guide.md`。
 - **窗口唤起规范**：详细规则参考 `references/window_guidelines.md`。
 - **发布指南**：参考 `references/publishing_workflow.md`。
