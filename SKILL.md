@@ -6,9 +6,8 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 ### 📁 技能内置资产 (Assets)
 在 `quicker-skill/` 下提供了丰富的脚手架工具：
 - `scripts/build_action.ps1`：自动调用编译器并解析日志的**一键构建脚本**。
-- `scripts/reflection_tool.cs`：用于探测内部对象的泛型反射实验室。
 - `templates/basic_action.json`：带输入/输出的标准快捷动作包裹容器。
-- `templates/ui_action.cs`：集成了 WPF UI 线程调度、异常捕获并输出到 `reflection_log.txt` 的 C# 代码骨架。
+- `templates/ui_action.cs`：集成了 WPF UI 线程调度、异常捕获并输出到 `.log` 的实用 C# 代码骨架。
 
 # Quicker 动作开发技能 (quicker-skill)
 
@@ -25,7 +24,7 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 - **变量操作**：
     - `context.GetVarValue("变量名")`：获取变量。
     - `context.SetVarValue("变量名", 值)`：设置变量。
-- **入口函数**：必须是 `public static void Exec(Quicker.Public.IStepContext context)`。
+- **入口函数**：必须是 `public static string Exec(Quicker.Public.IStepContext context)`。必须返回字符串（如 `"OK"` 或结果）。
 - **窗口管理规范**：遵循 `references/window_guidelines.md` 中的规范，确保窗口能够成功激活、前置且具备交互完整性。
 
 ### 2. 执行命令（PowerShell）
@@ -47,15 +46,11 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 1. **JSON 极简设计**：`templates/basic_action.json` 中严禁包含 `Steps` 数组。它仅应定义元数据（ID、变量、图标等）。
 2. **同名配对原则**：构建时，JSON 的文件名必须与 C# 核心逻辑脚本文件名完全一致且位于同一目录下。例如：`MyTask.json` 对应 `MyTask.cs`。
    - Quicker 构建器检测到此模式时，会自动将 `.cs` 内容填充到动作主步骤中，无需在 JSON 中声明 Steps。
-3. **独立 ID**：新动作的 `ActionId`必须与 `config.json` 中的“扳手 ID”区分开（以免修改到扳手本身）。
-4. **日志同名原则 (Local logging)**：为了让 `build_action.ps1` 能够准确捕获运行时的状态，C# 脚本中的 `logPath` 必须默认设置为与 JSON 文件**同目录且同名（.log后缀）**。
+3. **独立 ID**：新动作的 `ActionId` 必须与 `config.json` 中的“扳手 ID”区分开（以免修改到扳手本身）。
 
 ---
 
-## 🛠️ 反射工具实验室 (Reflection Tooling)
-可通过运行 `scripts/reflection_tool.cs` 并传入参数快速获取内部信息：
-- **搜索**: `qreflect?action=search&keyword=Toast`
-- **详细 Dump**: `qreflect?action=dump&type=Quicker.Utilities.AppHelper`- **更新简介 (Update Docs)**：
+- **更新简介 (Update Docs)**：
   ```powershell
   & "C:\Program Files\Quicker\QuickerStarter.exe" -c120 "runaction:{{wrench_id}}?action=update&filePath=$([System.Net.WebUtility]::UrlEncode('{{JSON绝对路径}}'))" | Out-String
   ```
@@ -107,16 +102,17 @@ using System.Windows;
 using Quicker.Public;
 
 // Roslyn v2 零样板模式：直接编写代码，禁止 namespace/class
-public static void Exec(IStepContext context)
+public static string Exec(IStepContext context)
 {
     // 获取输入变量
     string input = context.GetVarValue("input_var") as string;
     
-    // 逻辑处理
-    string rtn = context.GetVarValue("rtn") as string ?? "";
-    MessageBox.Show("你好！这是来自 Quicker 的弹窗！", "提示", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
-    rtn = "Success";
-    context.SetVarValue("rtn", rtn);
+    // UI 交互必须在 Dispatcher 线程中执行
+    Application.Current.Dispatcher.Invoke(() => {
+        MessageBox.Show($"你好！这是来自 Quicker 的输入：{input}", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+    });
+
+    return "OK";
 }
 ```
 
@@ -125,10 +121,8 @@ public static void Exec(IStepContext context)
 - **代码禁令**：C# 文件内绝对禁止出现 `namespace` 或 `class` 定义。
 - **路径要求**：命令中的路径必须是绝对路径，并进行 URL 编码。
 - **自动变量**：`text`, `rtn`, `errMessage`, `menuKey`, `silent` 会由构建器自动注入。
-- **内部核心模块 (反射调用) & 获取选中文本**：包含 Toast, WindowsToast, SelectOperationWindow 及 GetSelectedText 的深度调用规则，详见 `references/internal_modules.md`。
-- **内部 API 全量清单 (CSV)**：汇总所有探测到的内部窗体、服务及方法列表，见 `references/quicker_internal_apis.csv`。
-- **URL 参数自动解析 (quicker_in_param)**：外部 URL 启动时的参数处理模式参见 `references/internal_modules.md`。
-- **反射与内部模块探索**：混淆绕过、签名匹配等深度探索经验总结见 `references/reflection_discovery_experience.md`。
+- **内部核心模块 (高级) & 获取选中文本**：包含已验证过的 Toast, WindowsToast, SelectOperationWindow 及 GetSelectedText 调用规则，详见 `references/internal_modules.md`。
+- **窗口唤起规范**：详细规则参考 `references/window_guidelines.md`。
 - **云端同步指南**：详细同步流程和配置参考 `references/cloud_sync_guide.md`。
 - **窗口唤起规范**：详细规则参考 `references/window_guidelines.md`。
 - **发布指南**：参考 `references/publishing_workflow.md`。
