@@ -8,6 +8,7 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 - `scripts/build_action.ps1`：自动调用编译器并解析日志的**一键构建脚本**。
 - `templates/basic_action.json`：带输入/输出的标准快捷动作包裹容器。
 - `templates/ui_action.cs`：集成了 WPF UI 线程调度、异常捕获的实用 C# 代码骨架。
+- `templates/sync_subprogram_action.cs`：安全同步调用 Quicker 内部子程序（如 OCR），防死锁的标准模板代码。
 
 # Quicker 动作开发技能 (quicker-skill)
 
@@ -132,7 +133,7 @@ public static string Exec(IStepContext context)
 - **路径要求**：命令中的路径必须是绝对路径，并进行 URL 编码。
 - **自动变量**：`text`, `rtn`, `errMessage`, `menuKey`, `silent` 会由构建器自动注入。
 - **内部核心模块 (高级) & 获取选中文本**：包含已验证过的 Toast, WindowsToast, SelectOperationWindow 及 GetSelectedText 调用规则，详见 `references/internal_modules.md`。
+- **调用 Quicker 子程序 (推荐)**：使用官方提供的 `IStepContext.RunSpAsync` 执行外部功能封装，详见 `references/calling_subprograms.md`。
 - **窗口唤起规范**：详细规则参考 `references/window_guidelines.md`。
 - **云端同步指南**：详细同步流程和配置参考 `references/cloud_sync_guide.md`。
-- **窗口唤起规范**：详细规则参考 `references/window_guidelines.md`。
 - **发布指南**：参考 `references/publishing_workflow.md`。
