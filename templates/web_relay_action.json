@@ -1,0 +1,47 @@
+{
+    "ActionId": "",
+    "SharedActionId": "00000000-0000-0000-0000-000000000000",
+    "Title": "网页转API模板",
+    "Description": "基于 WebView2 + 本地 HTTP 中继 的网页聊天转 API 动作模板",
+    "Keywords": "web relay,api,webview2,openai compatible",
+    "ChangeLog": "v1.0.0 初始化网页转 API 模板",
+    "ShareUrl": "",
+    "Icon": "fa:Solid_Globe:#2F80ED",
+    "Variables": [
+        {
+            "Key": "quicker_in_param",
+            "Type": 0,
+            "DefaultValue": "",
+            "IsInput": true,
+            "Desc": "动作参数"
+        },
+        {
+            "Key": "input",
+            "Type": 0,
+            "DefaultValue": "",
+            "IsInput": false,
+            "Desc": "兼容输入参数"
+        },
+        {
+            "Key": "rtn",
+            "Type": 0,
+            "DefaultValue": "",
+            "IsOutput": false,
+            "Desc": "返回值(自动)"
+        },
+        {
+            "Key": "errMessage",
+            "Type": 0,
+            "DefaultValue": "",
+            "IsOutput": false,
+            "Desc": "错误信息(自动)"
+        }
+    ],
+    "References": [
+        "System.Windows.Forms.dll",
+        "System.Drawing.dll",
+        "Microsoft.Web.WebView2.Core.dll",
+        "System.Runtime.Serialization.dll",
+        "System.Xml.dll"
+    ]
+}

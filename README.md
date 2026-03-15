@@ -50,17 +50,32 @@
 
 ---
 *欲了解更详细的 C# 开发规范，请阅读同目录下的 `SKILL.md`。*
-## 📦 案例
 
-### Kimi Web Relay
-仓库内置了一个完整案例：[`examples/kimi-web-relay`](./examples/kimi-web-relay)
+## 🧩 新模板
 
-这个案例展示了如何把一个真实网页聊天站封装成本地 OpenAI 兼容接口，包含：
-- `WebView2` 页面驱动
-- 模型切换与联网搜索菜单控制
-- 首次网页发送 + 后续 C# 直发
-- 文本、HTML、SVG、长文本完整性验证
-- 文本文件与图片上传验证
+### Web Relay Action
+模板目录中新增了网页转 API 脚手架：
+- [`templates/web_relay_action.json`](./templates/web_relay_action.json)
+- [`templates/web_relay_action.cs`](./templates/web_relay_action.cs)
 
-如果你要开发类似的“网页转 API”动作，可以直接从这个案例起步，而不是从模板空白搭建。
+适用场景：
+- 把网页聊天站封装为本地 OpenAI 兼容接口
+- 需要 `WebView2 + 本地 HTTP 中继 + 响应流转发`
+- 需要从 Kimi、DeepSeek、Qwen、Gemini 等网页站点迁移时快速起步
 
+这个模板只保留稳定骨架：
+- 启停入口
+- 托盘与窗口管理
+- WebView2 容器
+- 本地 `/v1/chat/completions` 兼容层
+- SSE 输出骨架
+- DOM 注入脚本入口
+- 网络拦截脚本入口
+
+目标站点相关部分需要你自行替换：
+- 站点 URL
+- 输入框与发送按钮选择器
+- 模型切换
+- 联网开关
+- 附件上传
+- 真实响应协议解析
