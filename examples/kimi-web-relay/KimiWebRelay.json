@@ -1,0 +1,55 @@
+﻿{
+  "ActionId": "4283635b-ea40-405c-aa82-2f45254eda6a",
+  "SharedActionId": "00000000-0000-0000-0000-000000000000",
+  "Title": "Kimi网页转API",
+  "Description": "通过 WebView2 驱动 Kimi 网页并在本地暴露 OpenAI 兼容接口。",
+  "Keywords": "kimi,webview2,openai compatible,relay,api",
+  "ChangeLog": "v0.1.0 初始版本，基于 deepseekWebRelay 派生 Kimi 适配动作。",
+  "ShareUrl": "",
+  "Icon": "https://files.getquicker.net/_icons/F61D79E8F06DE37A4D3C8D76A6DE4835E15F0720.png",
+  "Variables": [
+    {
+      "Type": 0,
+      "Key": "input",
+      "DefaultValue": "",
+      "IsInput": true,
+      "Desc": "启动参数：留空正常启动，silent 后台启动，stop/shutdown 停止服务。"
+    },
+    {
+      "Type": 0,
+      "Key": "rtn",
+      "DefaultValue": "",
+      "IsOutput": false,
+      "Desc": "返回值(自动)"
+    },
+    {
+      "Type": 0,
+      "Key": "errMessage",
+      "DefaultValue": "",
+      "IsOutput": false,
+      "Desc": "错误信息(自动)"
+    },
+    {
+      "Type": 0,
+      "Desc": "结果文本(自动)",
+      "IsOutput": false,
+      "Key": "text"
+    },
+    {
+      "Type": 0,
+      "Desc": "菜单参数(自动)",
+      "IsOutput": false,
+      "Key": "menuKey"
+    },
+    {
+      "Type": 2,
+      "Desc": "静默启动",
+      "DefaultValue": "true",
+      "IsInput": false,
+      "Key": "silent"
+    }
+  ],
+  "Menus": {
+    "config": "[fa:Regular_Sun]设置"
+  }
+}
