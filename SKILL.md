@@ -8,6 +8,7 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 - `scripts/build_action.ps1`：自动调用编译器并解析日志的**一键构建脚本**。
 - `templates/basic_action.json`：带输入/输出的标准快捷动作包裹容器。
 - `templates/ui_action.cs`：集成了 WPF UI 线程调度、异常捕获的实用 C# 代码骨架。
+- `templates/toast_notification_action.cs`：动态版本悬浮通知逻辑 (Toast)，自动扫描 Quicker Notifier 字段，解决混淆名随版本变动的问题。
 - `templates/sync_subprogram_action.cs`：安全同步调用 Quicker 内部子程序（如 OCR），防死锁的标准模板代码。
 
 # Quicker 动作开发技能 (quicker-skill)

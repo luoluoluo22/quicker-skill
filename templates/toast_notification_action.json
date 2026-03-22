@@ -1,0 +1,21 @@
+{
+    "ActionId": "",
+    "SharedActionId": "00000000-0000-0000-0000-000000000000",
+    "Title": "悬浮通知助手",
+    "Description": "演示如何在悬浮通知中显示一段自定义信息。",
+    "Keywords": "通知,Toast",
+    "Icon": "fa:Regular_Bell:#FFD700",
+    "Variables": [
+        {
+            "Type": 0,
+            "Key": "message",
+            "DefaultValue": "任务处理已成功！",
+            "IsInput": true,
+            "Desc": "展示的通知内容"
+        }
+    ],
+    "Menus": {
+        "config": "[fa:Regular_Sun]设置"
+    },
+    "References": []
+}
