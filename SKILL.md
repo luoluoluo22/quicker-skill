@@ -6,10 +6,14 @@ description: 用于开发、部署和发布 Quicker 动作（Roslyn v2 引擎）
 ### 📁 技能内置资产 (Assets)
 在 `quicker-skill/` 下提供了丰富的脚手架工具：
 - `scripts/build_action.ps1`：自动调用编译器并解析日志的**一键构建脚本**。
+- `scripts/export_fontawesome_icons.ps1`：从本机 Quicker 安装目录导出内置 FontAwesome 图标索引。
+- `scripts/search_fontawesome_icons.ps1`：按关键词/风格快速搜索 Quicker 内置图标。
 - `templates/basic_action.json`：带输入/输出的标准快捷动作包裹容器。
 - `templates/ui_action.cs`：集成了 WPF UI 线程调度、异常捕获的实用 C# 代码骨架。
 - `templates/toast_notification_action.cs`：动态版本悬浮通知逻辑 (Toast)，自动扫描 Quicker Notifier 字段，解决混淆名随版本变动的问题。
 - `templates/sync_subprogram_action.cs`：安全同步调用 Quicker 内部子程序（如 OCR），防死锁的标准模板代码。
+- `references/quicker_fontawesome_icons.csv`：Quicker 内置图标索引表，包含前缀、枚举名、token、动作图标写法。
+- `references/quicker_fontawesome_icons.md`：图标命名规则、搜索方法和已验证图标说明。
 
 # Quicker 动作开发技能 (quicker-skill)
 
